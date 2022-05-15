@@ -1,3 +1,3 @@
 # BraggDiffraction
 
-![](\Results\n1.gif)
+![](BraggDiffraction/Results/n1.gif)
