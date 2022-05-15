@@ -1,3 +1,3 @@
 # BraggDiffraction
 
-![](./Results/n1.gif)
+!['Diffraction Order n = 2'](./Results/n2.gif)
