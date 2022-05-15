@@ -1,4 +1,5 @@
 # BraggDiffraction
 
-##Diffraction Order n=2
+## Diffraction Order n=2
+
 ![](./Results/n2.gif)
