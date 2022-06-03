@@ -1,6 +1,6 @@
 # BraggDiffraction
 
-$\lambda$ = $\frac{a}{b}$
+n $\frac{$\lambda$}{2}$ = $\frac{a}{b}$
 
 #### Electric field source at the top left emitting em waves at 45 degrees
 
