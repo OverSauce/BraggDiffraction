@@ -1,5 +1,9 @@
 # BraggDiffraction
 
-#### Electric field source at the top left emitting em waves at approximately 45 degree angle
+#### Electric field source at the top left emitting em waves at 45 degrees
 
-![](./Results/n2.gif)
+![](./Results/1n1.gif)
+
+![](./Results/1n2.gif)
+
+![](./Results/1n3.gif)
