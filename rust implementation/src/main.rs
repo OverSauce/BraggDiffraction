@@ -24,7 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         (-((x - u) / (sigma)).powi(2) / 2.).exp()
     }
 
-    let mut em: EM<f64> = EMBuilder::new()
+    let em: EM<f64> = EMBuilder::new()
         .dimensions(T, N)
         .delta(vel, ds)
         .waveform(
@@ -34,8 +34,6 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .collect(),
         )
         .build();
-
-    em.update((eps0, mu0), (dt, ds));
 
     #[allow(unused_variables)] // used only in python
     let ez = em.get_efield(10);
