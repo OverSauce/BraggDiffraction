@@ -9,7 +9,7 @@ pub mod em {
 		mu: f64,
 	}
 
-	pub struct EMBuilder {
+	pub struct Simulate {
 		times: usize,
 		spaces: usize,
 		eps: f64,
@@ -70,9 +70,9 @@ pub mod em {
 		}
 	}
 
-	impl EMBuilder {
-		pub fn new() -> EMBuilder {
-			EMBuilder {
+	impl Simulate {
+		pub fn new() -> Simulate {
+			Simulate {
 				times: 0,
 				spaces: 0,
 				eps: 8.8541878176e-12,
@@ -82,30 +82,30 @@ pub mod em {
 				waveform: vec![],
 			}
 		}
-		pub fn dimensions(mut self, times: usize, spaces: usize) -> EMBuilder {
+		pub fn dimensions(mut self, times: usize, spaces: usize) -> Simulate {
 			self.times = times;
 			self.spaces = spaces;
 			self
 		}
-		pub fn consts(mut self, eps: f64, mu: f64) -> EMBuilder {
+		pub fn consts(mut self, eps: f64, mu: f64) -> Simulate {
 			self.eps = eps;
 			self.mu = mu;
 			self
 		}
-		pub fn dt(mut self, dt: f64) -> EMBuilder {
+		pub fn dt(mut self, dt: f64) -> Simulate {
 			self.dt = dt;
 			self
 		}
-		pub fn ds(mut self, ds: f64) -> EMBuilder {
+		pub fn ds(mut self, ds: f64) -> Simulate {
 			self.ds = ds;
 			self
 		}
-		pub fn delta(mut self, vel: f64, ds: f64) -> EMBuilder {
+		pub fn delta(mut self, vel: f64, ds: f64) -> Simulate {
 			self.dt = ds / vel;
 			self.ds = ds;
 			self
 		}
-		pub fn waveform(mut self, waveform: Vec<f64>) -> EMBuilder {
+		pub fn waveform(mut self, waveform: Vec<f64>) -> Simulate {
 			self.waveform = waveform;
 			self
 		}

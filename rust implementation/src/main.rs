@@ -1,4 +1,4 @@
-use fdtd::em::{EMBuilder, EM};
+use fdtd::em::{Simulate, EM};
 use inline_python::{python, Context};
 use std::error::Error;
 
@@ -25,7 +25,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         (-((x - u) / (sigma)).powi(2) / 2.).exp()
     }
 
-    let em: EM<f64> = EMBuilder::new()
+    let em: EM<f64> = Simulate::new()
         .dimensions(T, N)
         .delta(vel, ds)
         .consts(eps0, mu0)
