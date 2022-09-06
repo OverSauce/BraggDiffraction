@@ -1,4 +1,4 @@
-use fdtd::em::{Simulate, EM};
+use rust_fdtd::em::{Simulate, EM};
 use inline_python::{python, Context};
 use std::error::Error;
 
