@@ -1,44 +1,38 @@
 pub mod em {
 
+	type Vector2<T> = Vec<Vec<T>>;
+
 	pub struct EM<T> {
-		hy: Vec<Vec<T>>,
-		ez: Vec<Vec<T>>,
+		hy: Vector2<T>,
+		ez: Vector2<T>,
 		times: usize,
 		spaces: usize,
 		eps: f64,
 		mu: f64,
 	}
 
-	pub struct Simulate {
-		times: usize,
-		spaces: usize,
-		eps: f64,
-		mu: f64,
-		dt: f64,
-		ds: f64,
-		waveform: Vec<f64>,
+	impl Default for EM<f64> {
+		fn default() -> Self {
+			EM {
+				hy: vec![vec![0.; 10]; 10],
+				ez: vec![vec![0.; 10]; 10],
+				times: 10,
+				spaces: 10,
+				eps: 8.8541878176e-12,
+				mu: 1.2566370614e-6
+			}
+		}
 	}
 
 	#[allow(dead_code)]
 	impl EM<f64> {
-		pub fn new(tlike: usize, slike: usize) -> EM<f64> {
+		pub fn new((t, n): (usize, usize)) -> Self {
 			EM {
-				hy: vec![vec![0.0; slike]; tlike],
-				ez: vec![vec![0.0; slike]; tlike],
-				times: tlike,
-				spaces: slike,
-				eps: 8.8541878176e-12,
-				mu: 1.2566370614e-6,
-			}
-		}
-		fn copy(&self) -> EM<f64> {
-			EM {
-				hy: self.hy.clone(),
-				ez: self.ez.clone(),
-				times: self.times,
-				spaces: self.spaces,
-				eps: self.eps,
-				mu: self.mu,
+				hy: vec![vec![0.; n]; t],
+				ez: vec![vec![0.; n]; t],
+				times: t,
+				spaces: n,
+				..Default::default()
 			}
 		}
 		pub fn update(&mut self, (dt, ds): (f64, f64)) {
@@ -68,6 +62,16 @@ pub mod em {
 						.map(|t| self.hy[t * everyn].clone())
 						.collect()
 		}
+	}
+
+	pub struct Simulate {
+		times: usize,
+		spaces: usize,
+		eps: f64,
+		mu: f64,
+		dt: f64,
+		ds: f64,
+		waveform: Vec<f64>,
 	}
 
 	impl Simulate {
@@ -110,7 +114,7 @@ pub mod em {
 			self
 		}
 		pub fn build(self) -> EM<f64> {
-			let mut em = EM::new(self.times, self.spaces);
+			let mut em = EM::new((self.times, self.spaces));
 			em.initial_cond(&self.waveform);
 			em.update((self.dt, self.ds));
 			em
