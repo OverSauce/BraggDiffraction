@@ -4,6 +4,6 @@
 
 ![](./Python/Results/1n1.gif)
 
-![](./'python implementation'/Results/1n2.gif)
+![](./Python/Results/1n2.gif)
 
-![](./'python implementation'/Results/1n3.gif)
+![](./Python/Results/1n3.gif)
