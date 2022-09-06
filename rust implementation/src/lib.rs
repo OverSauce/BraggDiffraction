@@ -5,13 +5,15 @@ pub mod em {
 		ez: Vec<Vec<T>>,
 		times: usize,
 		spaces: usize,
+		eps: f64,
+		mu: f64,
 	}
 
 	pub struct EMBuilder {
 		times: usize,
 		spaces: usize,
-		eps0: f64,
-		mu0: f64,
+		eps: f64,
+		mu: f64,
 		dt: f64,
 		ds: f64,
 		waveform: Vec<f64>,
@@ -25,6 +27,8 @@ pub mod em {
 				ez: vec![vec![0.0; slike]; tlike],
 				times: tlike,
 				spaces: slike,
+				eps: 8.8541878176e-12,
+				mu: 1.2566370614e-6,
 			}
 		}
 		fn copy(&self) -> EM<f64> {
@@ -33,18 +37,20 @@ pub mod em {
 				ez: self.ez.clone(),
 				times: self.times,
 				spaces: self.spaces,
+				eps: self.eps,
+				mu: self.mu,
 			}
 		}
-		pub fn update(&mut self, (eps0, mu0): (f64, f64), (dt, ds): (f64, f64)) {
+		pub fn update(&mut self, (dt, ds): (f64, f64)) {
 			for t in 1..self.hy.len() {
 				for s in 0..self.hy[t].len() - 1 {
 					self.hy[t][s] = self.hy[t - 1][s]
-						+ (self.ez[t - 1][s + 1] - self.ez[t - 1][s]) * dt / ds / mu0;
+						+ (self.ez[t - 1][s + 1] - self.ez[t - 1][s]) * dt / ds / self.mu;
 				}
 				self.hy[t][self.spaces - 1] = self.hy[t - 1][self.spaces - 2];
 				for s in 1..self.hy[t].len() {
 					self.ez[t][s] =
-						self.ez[t - 1][s] + (self.hy[t][s] - self.hy[t][s - 1]) * dt / ds / eps0;
+						self.ez[t - 1][s] + (self.hy[t][s] - self.hy[t][s - 1]) * dt / ds / self.eps;
 				}
 				self.ez[t][0] = self.ez[t - 1][1];
 			}
@@ -69,8 +75,8 @@ pub mod em {
 			EMBuilder {
 				times: 0,
 				spaces: 0,
-				eps0: 8.8541878176e-12,
-				mu0: 1.2566370614e-6,
+				eps: 8.8541878176e-12,
+				mu: 1.2566370614e-6,
 				dt: 0.0,
 				ds: 0.0,
 				waveform: vec![],
@@ -81,12 +87,9 @@ pub mod em {
 			self.spaces = spaces;
 			self
 		}
-		pub fn eps0(mut self, eps0: f64) -> EMBuilder {
-			self.eps0 = eps0;
-			self
-		}
-		pub fn mu0(mut self, mu0: f64) -> EMBuilder {
-			self.mu0 = mu0;
+		pub fn consts(mut self, eps: f64, mu: f64) -> EMBuilder {
+			self.eps = eps;
+			self.mu = mu;
 			self
 		}
 		pub fn dt(mut self, dt: f64) -> EMBuilder {
@@ -109,7 +112,7 @@ pub mod em {
 		pub fn build(self) -> EM<f64> {
 			let mut em = EM::new(self.times, self.spaces);
 			em.initial_cond(&self.waveform);
-			em.update((self.eps0, self.mu0), (self.dt, self.ds));
+			em.update((self.dt, self.ds));
 			em
 		}
 	}

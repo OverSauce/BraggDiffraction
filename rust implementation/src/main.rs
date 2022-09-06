@@ -20,6 +20,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let ds = x[1] - x[0];
     let dt = ds / vel;
 
+    #[inline(always)]
     fn gaussian(x: f64, u: f64, sigma: f64) -> f64 {
         (-((x - u) / (sigma)).powi(2) / 2.).exp()
     }
@@ -27,6 +28,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let em: EM<f64> = EMBuilder::new()
         .dimensions(T, N)
         .delta(vel, ds)
+        .consts(eps0, mu0)
         .waveform(
             (0..N)
                 .into_iter()
